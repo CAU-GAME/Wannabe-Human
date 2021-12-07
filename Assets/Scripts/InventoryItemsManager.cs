@@ -21,8 +21,7 @@ using UnityEngine.UI;
     - 가지고 있는 아이템 개수가 하나 감소되어야 한다.
     - Drawn Items 목록에 해당 아이템이 추가되어야 한다.
 - Drawn Items에서 취소된 아이템은 Inventory Items목록에 추가된다.
-- 처음 Stage가 시작될 때, Inventory에서 수집된 아이템 종류와 개수 정보를 받아와서
-  Inventory Items에 표시한다.
+- Inventory에서 수집된 아이템 종류와 개수 정보를 받아와서 Inventory Items에 표시한다.
  */
 
 public class InventoryItemsManager : MonoBehaviour
@@ -59,6 +58,8 @@ public class InventoryItemsManager : MonoBehaviour
         Vector2 objectSize = tempRectTf.rect.size;
         Vector2 imageSize = image.rectTransform.rect.size;
         float ratio = imageSize.x / imageSize.y;
+        //아이템 이미지에서 가로 세로 길이 중 기다란 쪽을 Inventory Item의 크기에 맞춘다.
+        //길이가 짧은 쪽은 Ratio를 곱해서 비율을 맞춘다.
         if (imageSize.x > imageSize.y)
         {
             image.rectTransform.sizeDelta = new Vector2(objectSize.x, objectSize.x / ratio);//x가 더 긴 경우

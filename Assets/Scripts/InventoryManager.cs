@@ -4,15 +4,15 @@ using UnityEngine;
 
 /*
  InventoryManager 클래스
-- 이 클래스는 stage1(아이템 수집 단계)에서 아이템을 수집할 때, 어떤 아이템을 얼마나 모았는지 관리한다.
+- 이 클래스는 Main Stage(아이템 수집 단계)에서 아이템을 수집할 때, 어떤 아이템을 얼마나 모았는지 관리한다.
 
-- Stage1 씬의 Inventory Manager객체에 부착
+- Inventory Manager객체에 부착
 
 주요기능
 - 어떤 아이템(코드로 구분)을 얼마나 모았는지 알 수 있어야 한다.
 - 아이템의 이름을 알 수 있어야 한다.
-    - 해당 아이템의 이미지와 3D 오브젝트가 Stage2에서 필요하다.
-    - 이름은 이미지와 3D 오브젝트를 불러오기 위해 필요하다.
+    - 해당 아이템의 이미지가 Problem Stage(Quiz Time)에서 필요하다.
+    - 이름은 이미지를 불러오기 위해 필요하다.
  */
 
 public class InventoryManager : MonoBehaviour
@@ -50,7 +50,7 @@ public class InventoryManager : MonoBehaviour
     //인벤토리에 아이템을 추가한다.
     //ItemInfo는 아이템에 대한 정보를 가지고 있는 클래스이다.
     //아이템의 이름과 아이템의 코드를 저장하고 있다.
-    //Stage1에서 사용하는 함수
+    //Main Stage(Collecting Time)에서 사용하는 함수
     public bool AddItem(ItemInfo item)
     {
         //해당 아이템이 인벤토리에 있는 경우, 전에 수집된 아이템인 경우
@@ -72,7 +72,7 @@ public class InventoryManager : MonoBehaviour
     //인벤토리에 아이템이 비어졌다가 다시 채워지는 경우 -> Drawn Items 목록에서 추가 신호가 오는 경우
     //이때는 code만 있어도 된다.
     //이 함수는 인벤토리에 추가하는 것은 동일하다. 하지만 코드만 이용해 추가한다.
-    //Stage2에서 사용하기 위한 함수
+    //Problem Stage(Quiz Time)에서 사용하기 위한 함수
     public bool AddItem(int code)
     {
         if (itemCount.ContainsKey(code))

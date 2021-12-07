@@ -9,7 +9,7 @@ using Photon.Realtime;
 
 /*
  StageManager 클래스
-- Problem Stage의 게임진행을 전반적으로 관리하는 클래스이다. 문제 출제
+- Problem Stage의 게임진행을 전반적으로 관리하는 클래스이다. 문제 출제- Quiz Time
 - GameManager로부터 중요 정보를 참조하여 플레이어의 게임진행을 관리한다.
 - Problem Stage는 크게 출제자와 문제를 푸는 사람으로 나뉜다.
 - 출제자는 Main Stage에서 수집한 아이템을 이용해 본인의 제시어를 표현한다.
@@ -67,8 +67,6 @@ public class StageManager : MonoBehaviourPun, IPunObservable
     //현재 플레이어가 받은 제시어와 이미지, 왼쪽 상단에 표시된다.
     public Text proposedWord;//제시어
 
-    public Button replay;//게임 재시작 버튼
-
     //GameManager로부터 정보를 가져온다.
     public float limitTime;//제한시간이 저장되는 변수, 단위 : 초
     public float noticeTime;//안내문구가 표시되는 시간을 저장할 변수, 단위 : 초
@@ -121,9 +119,6 @@ public class StageManager : MonoBehaviourPun, IPunObservable
 
         //플레이어의 제시어와 제시이미지 세팅
         proposedWord.text = gameManager.localPlayer.proposedWord;
-
-        //게임 재시작 버튼을 눌렀을 때, 이벤트 처리함수 등록
-        replay.onClick.AddListener(OnClickReplay);
 
         SetPlayersInfo();//현재 플레이어들의 정보를 화면에 보여준다.
     }
@@ -395,14 +390,6 @@ public class StageManager : MonoBehaviourPun, IPunObservable
         {
             playerInfos.SetPlayerInfo(player);
         }
-    }
-
-    //게임 재시작 버튼을 누를 때 실행할 함수
-    public void OnClickReplay()
-    {
-        gameManager.Replay();
-        SetPlayersInfo();
-        state = PlayState.Start;
     }
 
     public void OnPointerDown(PointerEventData data)

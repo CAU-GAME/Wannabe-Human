@@ -5,14 +5,14 @@ using UnityEngine.EventSystems;
 
 /*
  ButtonOverScroll 클래스
-- 이 클래스는 Waiting Items에서 버튼의 스크롤 기능을 구현한 컴포넌트이다.
+- 이 클래스는 Inventory Items(Inventory Item이 담길 UI)에서 버튼의 스크롤 기능을 구현한 컴포넌트이다.
 - 오른쪽 버튼, 왼쪽 버튼에 각각 부착되어 있다.
 
 주요기능
-- Waiting Items는 두 개의 버튼이 있다.
+- Inventory Items는 두 개의 버튼이 있다.
 - 오른쪽 이동/ 왼쪽 이동
 - 마우스가 해당 버튼 위로 Over되면(해당 버튼의 영역 안으로 들어오게 되면) 그에 맞는 방향으로
-  Waiting item들을 이동시켜야 한다.
+  Inventory item들을 이동시켜야 한다.
  */
 
 public class ButtonOverScroll : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler

@@ -7,12 +7,12 @@ using UnityEngine.UI;
  ContorlLineController 클래스
 - Control Line의 움직임을 제어하는 클래스이다.
 - Control Line
-    - Palette에 그려진 3D Object를 편집할 때, 3D Object 위에 나타날 제어표시이다.
+    - 플레이어가 Palette에 그려진 Palette Item을 편집할 때, Palette Item 위에 나타날 제어표시이다.
     - 평행이동, 회전, 스케일 정보를 입력받고 각 정보가 Control Line에 반영된다.
 - Control Line의 구조
     - Rotate Line : 버튼
     - Neck : Rotate Line과 Box사이의 연결 부분
-    - Box : 버튼, 3D Object를 감싸는 부분
+    - Box : 버튼, Palette Item을 감싸는 부분
         - Right Up Scale Point      : 오른쪽 상단 스케일 조정 버튼
         - Left Up Scale Point       : 왼쪽 상단 스케일 조정 버튼
         - Right Down Scale Point    : 오른쪽 하단 스케일 조정 버튼
@@ -21,7 +21,7 @@ using UnityEngine.UI;
 주요기능
 - 평행이동, 회전, 확대/축소 변경 정보는 마우스 드래그를 통해 입력받는다.
 - 마우스가 클릭한 시점을 기준으로 도형변환이 이루어진다.
-- Control Line을 통해 입력받은 정보는 Palette에 전달되어 3D Object에 반영된다.
+- Control Line을 통해 입력받은 정보는 Palette에 전달되어 Palette Item에 반영된다.
     - Palette에 변환정보를 전달할 때는 스크린 좌표에서 월드좌표로 값을 변경해주어야 한다.
 - Box를 클릭하면 평행이동 정보를 입력받는다.
     - 평행이동 정보는 Box의 중심을 기준으로 한다.
@@ -57,7 +57,7 @@ public class ControlLineController : MonoBehaviour
     public RectTransform rotateLine;
     private RectTransform controlLine;//Control Line의 Rect Transform
 
-    //Control Line이 표시될 공간 -> Drawn Item의 3D 오브젝트가 표시되는 공간이기도 하다.
+    //Control Line이 표시될 공간 -> Drawn Item의 Palette Item가 표시되는 공간이기도 하다.
     public RectTransform palette;
 
     //Control Line의 모양을 변형시킬 때 사용되는 변수들이다.

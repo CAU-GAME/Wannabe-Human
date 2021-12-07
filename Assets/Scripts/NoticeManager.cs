@@ -41,9 +41,9 @@ public class NoticeManager : MonoBehaviour
     public WrongNoticeSetter wrong;//Wrong알림
     public ResultNoticeSetter result;//Result알림
 
-    public GuideWordSetter guideWord;
-    public GuideOrderSetter guideOrder;
-    public GuideStateSetter guideState;
+    public GuideWordSetter guideWord;//제시어 안내
+    public GuideOrderSetter guideOrder;//Quiz 순서 안내
+    public GuideStateSetter guideState;//Collectin Time 때, 제한시간/스킬/제시어 안내
 
     private string nextMsg = "Next Turn is 000";//다음 차례 메시지
 

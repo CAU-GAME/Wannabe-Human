@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Photon.Pun;
+using Photon.Realtime;
 
 
-public class player_move : MonoBehaviour
+public class player_move : MonoBehaviourPunCallbacks
 {
+    public static player_move Inst {get; private set;}
     float hAxis;
     float vAxis;
     bool isSpace;
@@ -20,6 +22,8 @@ public class player_move : MonoBehaviour
 
     public MainStageManager mainStageManager;
     private PlayerPickupItem pickup;
+    private PhotonView pv;
+    private GameObject destroyingTarget;
    
     void Start()
     {
@@ -34,6 +38,12 @@ public class player_move : MonoBehaviour
             Destroy(transform.GetChild(8).gameObject);
             Destroy(GetComponent<PlayerPickupItem>());
             Destroy(GetComponent<player_move>());
+        }
+        else
+        {
+            if (Inst == null)
+                Inst = this;
+            pv = GetComponent<PhotonView>();
         }
     }
 
@@ -96,6 +106,7 @@ public class player_move : MonoBehaviour
                 crush.Is_crush = true;
                 drop = true;
                 animator.SetBool("Crush", true);
+
             }
         }
         if (Input.GetMouseButtonUp(0))
@@ -112,6 +123,8 @@ public class player_move : MonoBehaviour
                 punch.Is_Punch = true;
 
                 animator.SetBool("Punch", true);
+                GetComponent<TempHand>().AttackRPC();
+
             }
 
         }
@@ -120,7 +133,6 @@ public class player_move : MonoBehaviour
             animator.SetBool("Punch", false);
         }
     }
-
 
     void OnTriggerStay(Collider other)
     {
@@ -131,10 +143,28 @@ public class player_move : MonoBehaviour
             Destroy(canGetItem);
             //canGetItem.SetActive(false);
         }
+        if (other.tag == "Hand")
+        {
+            if (other.GetComponentInParent<TempHand>().isAttacking && other.GetComponentInParent<TempHand>().gameObject != gameObject)
+            {
+                animator.SetTrigger("Die");
+                other.GetComponentInParent<TempHand>().isAttacking = false;
+            }
+        }
     }
+
+    private void OnTriggerEnter(Collider other) 
+    {
+        
+    }
+
     void OnTriggerExit(Collider other)
     {
         if (other.tag == "item")
             canGetItem = null;
+        if (other.tag == "Hand")
+        {
+            
+        }
     }
 }

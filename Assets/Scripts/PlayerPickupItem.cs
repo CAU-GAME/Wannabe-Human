@@ -1,7 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ PlayerPickupItem 클래스
+ - 플레이어가 아이템을 수집할 수 있도록 UI를 띄우고, 
+    MainStageManager에게 아이템 추가 신호를 보낸다. 
+ */
 public class PlayerPickupItem : MonoBehaviour
 {
     public MainStageManager mainStageManager;

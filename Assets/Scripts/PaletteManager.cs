@@ -8,15 +8,15 @@ using Photon.Realtime;
 
 /*
  PaletteManager 클래스
-- Drawn Items에 등록된 아이템들의 3D Object들을 관리하는 클래스
-- 3D Object가 그려지는 공간을 Palette라고 부르도록 하자.
+- Drawn Items에 아이템이 생겼을때 동시에 생겨나는 Palette Item들을 관리하는 클래스
+- Palette Item이 그려지는 공간을 Palette라고 부르도록 하자.
 
 - Palette에 부착
 
 주요기능
-- Drawn Items에 추가된 아이템의 3D Object를 Palette에 보여줘야 한다.
+- Drawn Item이 생겼을 때, 해당하는 Palette Item도 생겨야 한다.
 - 선택된 Drawn Item에 사용자 입력에 맞게 적절하게 평행이동/회전/스케일을 적용해야 한다.
-    - Control Line으로부터 사용자 입력을 받아서 3D Object에 적용한다.
+    - Control Line으로부터 사용자 입력을 받아서 Palette Item에 적용한다.
 - 선택된 Drawn Item에 맞게 적절한 모양의 Control Line을 보여줘야 한다.
 - 현재 선택된 Drawn Item을 표시해야 한다.
     - 현재 선택된 Drawn Item의 Control Line이 오브젝트 위에 표시된다.
@@ -36,9 +36,9 @@ public class PaletteManager : MonoBehaviour, IPointerDownHandler
     public RectTransform content;//palette Item이 담길 공간
 
     private InventoryManager inventory;//아이템의 코드와 개수가 저장된 Inventory
-    private Dictionary<int, GameObject> idToObject;//Id -> Object, Palette에 그려질 3D 아이템
-    private Dictionary<int, ControlLineController> idToControl;//Id -> 그림그릴 때 이용할 ControlLine Object
-    private Dictionary<int, GameObject> idToNetworkPrefabs;
+    private Dictionary<int, GameObject> idToObject;//Key : 아이템 Id, Value : Palette Item
+    private Dictionary<int, ControlLineController> idToControl;//Key : Id, Value : 그림 그릴 때 이용할 ControlLine
+    private Dictionary<int, GameObject> idToNetworkPrefabs;//네트워크 용
 
     private int selectedID = -1;//현재 선택된 아이템의 ID - Drawn Items에 등록된 ID와 동일하다.
 
@@ -53,25 +53,25 @@ public class PaletteManager : MonoBehaviour, IPointerDownHandler
         idToNetworkPrefabs = new Dictionary<int, GameObject>();
     }
 
-    //Control Line으로부터 정보를 입력받아 3D Object에 적용한다.
+    //Control Line으로부터 정보를 입력받아 Palette Item에 적용한다.
     void Update()
     {
         if (selectedID == -1) return;//현재 선택된 아이템이 없는 경우는 넘어간다.
         switch (idToControl[selectedID].GetDrawingState())//선택된 아이템의 Control Line 상태를 확인
         {
             case DrawingState.isTranslating://평행이동 상태
-                idToObject[selectedID].transform.position = idToControl[selectedID].GetPosition();
-                idToNetworkPrefabs[selectedID].transform.position = idToControl[selectedID].GetWorldPosition();
+                idToObject[selectedID].transform.position = idToControl[selectedID].GetPosition();//Palette Item의 위치 설정
+                idToNetworkPrefabs[selectedID].transform.position = idToControl[selectedID].GetWorldPosition();//네트워크용 Palette Item의 위치도 설정
                 break;
 
             case DrawingState.isRotating://회전 상태
-                idToObject[selectedID].transform.rotation = idToControl[selectedID].GetRotation();
-                idToNetworkPrefabs[selectedID].transform.rotation = idToControl[selectedID].GetRotation();
+                idToObject[selectedID].transform.rotation = idToControl[selectedID].GetRotation();//Palette Item의 회전 설정
+                idToNetworkPrefabs[selectedID].transform.rotation = idToControl[selectedID].GetRotation();//네트워크용 Palette Item의 회전 설정
                 break;
 
             case DrawingState.isScaling://스케일링 상태
-                idToObject[selectedID].transform.localScale = idToControl[selectedID].GetScale();
-                idToNetworkPrefabs[selectedID].transform.localScale = idToControl[selectedID].GetScale();
+                idToObject[selectedID].transform.localScale = idToControl[selectedID].GetScale();//Palette Item의 스케일 설정
+                idToNetworkPrefabs[selectedID].transform.localScale = idToControl[selectedID].GetScale();//네트워크용 Palette Item의 스케일 설정
                 break;
 
             case DrawingState.None://조작을 안하고 있는 상태
@@ -79,7 +79,7 @@ public class PaletteManager : MonoBehaviour, IPointerDownHandler
         }
     }
 
-    ////Drawn Item으로부터 id와 code를 입력받아서 그에 맞는 3D Object를 생성한다.
+    ////Drawn Item으로부터 id와 code를 입력받아서 그에 맞는 Palette Item을 생성한다.
     public void DrawObject(int id, int code)//id는 오브젝트의 고유한 구분자, code는 아이템 종류 구분자
     {
         //현재 선택된 아이템 최신화
@@ -147,7 +147,7 @@ public class PaletteManager : MonoBehaviour, IPointerDownHandler
         PhotonNetwork.Destroy(idToNetworkPrefabs[id]);
         idToNetworkPrefabs.Remove(id);
 
-        if(id == selectedID)//만약 현재 선택된 아이템을 삭제하는 경우
+        if (id == selectedID)//만약 현재 선택된 아이템을 삭제하는 경우
         {
             selectedID = -1;//선택된 아이템의 ID를 초기화한다. -> 아무것도 선택 안된 상태로 초기화
         }
@@ -157,7 +157,7 @@ public class PaletteManager : MonoBehaviour, IPointerDownHandler
     public void EraseAllObject()
     {
         List<int> ids = new List<int>(idToObject.Keys);
-        for(int i = 0; i < ids.Count; i++)
+        for (int i = 0; i < ids.Count; i++)
         {
             EraseObject(ids[i]);
         }

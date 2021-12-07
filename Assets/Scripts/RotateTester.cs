@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*회전 테스트용 스크립트*/
+
 public class RotateTester : MonoBehaviour
 {
     public Transform target;

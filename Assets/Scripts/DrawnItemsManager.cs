@@ -5,24 +5,24 @@ using UnityEngine.UI;
 
 /*
  DrawnItemsManager 클래스
-- 사용자가 문제를 출제할 때, Waiting Items에서 선택한 아이템이 표시되는 공간(Drawn Items)에 
-  표시될 아이템을 관리하는 클래스이다.
-- Drawn Items는 Drawn Item이 표시된다.
+- 사용자가 문제를 출제할 때, Inventory Items에서 선택한 아이템이 표시되는 공간(Drawn Items)에 
+  표시될 아이템(Dranw Item)을 관리하는 클래스이다.
+- Drawn Items에 Drawn Item이 표시된다.
 - Drawn Item의 구조
     - 버튼 : 클릭 이벤트를 받을 수 있다.
         - 이미지    : 선택된 아이템 이미지를 표시한다.
         - 선택표시  : 현재 아이템이 선택되어 있는지 표시한다.
         - 취소버튼  : 선택된 아이템의 그리기를 취소할 수 있다.
-- 선택된 Drawn Item은 Palette에 3D Object로 그려진다.
+- 선택된 Drawn Item은 Palette에 Palette Item으로 표시된다.
 
 - Drawn Items에 부착
 
 주요기능
 - Waiting Items에서 선택된 아이템을 Drawn Items에 표시한다.
-    - 그와 동시에 Palette에 해당 아이템의 3D Object가 표시된다.
+    - 그와 동시에 Palette에 해당 아이템의 Palette Item이 표시된다.
 - Drawn Item은 해당 아이템의 이미지와 취소버튼이 있다.
 - Drawn Item을 선택한 경우
-    - Palette에 그려진 3D Object의 위치, 회전, 크기를 변형할 수 있다.
+    - Palette에 그려진 Palette Item의 위치, 회전, 크기를 변형할 수 있다.
     - 위치, 회전, 크기를 바꿀 수 있는 UI(제어 선, Control Line)이 표시된다.
     - 선택된 아이템이 어떤 것인지 표시가 되어야 한다.
 - Drawn Item의 취소버튼을 클릭한 경우
@@ -47,7 +47,7 @@ public class DrawnItemsManager : MonoBehaviour
     public GameObject drawnItem;//Drawn Item을 표시할 Object, 복사용이다. 프리팹으로 준비해두었다.
     public InventoryItemsManager inventoryItems;//Waiting Items들을 관리하는 컴포넌트
     public GameObject disable;//본인의 출제 차례가 아닐때 Drawn Item을 선택할 수 없도록 가리는 Object
-    public bool placeOnTop = true;//Waiting Items에서 선택된 아이템이 Drawn Items의 가장 위쪽에 생기는데,
+    public bool placeOnTop = true;//Inventory Items에서 선택된 아이템이 Drawn Items의 가장 위쪽에 생기는데,
                                   //범위를 넘어가는 경우 안 보이게 된다.
                                   //그래서 그때 보이게 할 지 결정할 변수
 
@@ -80,6 +80,8 @@ public class DrawnItemsManager : MonoBehaviour
         Vector2 imageSize = image.rectTransform.rect.size;
 
         float ratio = imageSize.x / imageSize.y;
+        //아이템 이미지에서 가로 세로 길이 중 기다란 쪽을 Drawn Item의 크기에 맞춘다.
+        //길이가 짧은 쪽은 Ratio를 곱해서 비율을 맞춘다.
         if (imageSize.x > imageSize.y)
         {
             image.rectTransform.sizeDelta = new Vector2(objectSize.x, objectSize.x / ratio);//x가 더 긴 경우
@@ -91,7 +93,7 @@ public class DrawnItemsManager : MonoBehaviour
         image.rectTransform.position = tempRectTf.position;
     }
 
-    //Waiting Items에서 Item이 선택되면 실행될 함수
+    //Inventory Items에서 Item이 선택되면 실행될 함수
     //Drawn Items목록에 Drawn Item을 추가한다.
     //그리고 그에 해당하는 설정값 초기화
     public void DrawItem(int code)
@@ -119,9 +121,9 @@ public class DrawnItemsManager : MonoBehaviour
         SelectObject(id);
         btnID++;//새롭게 추가될 아이템 ID 갱신
 
-        //Palette에 현재 선택된 아이템의 3D Object를 그린다.
+        //Palette에 현재 선택된 아이템의 Palette Item을 그린다.
         palette.InitializeSelection();
-        palette.DrawObject(id, code);//3D Object그리기
+        palette.DrawObject(id, code);//Palette Item그리기
         
         PlaceContentTop();//현재 선택된 아이템이 보이지 않는 경우 가장 위쪽에 보이도록 설정
     }
@@ -165,7 +167,7 @@ public class DrawnItemsManager : MonoBehaviour
     //필요기능
     //Drawn Items목록에서 해당 아이템을 지워야한다.
     //Control Line을 지워야 한다.
-    //Waiting Items에 그려져야 한다.
+    //Inventory Items에 그려져야 한다.
     public void OnClickCancel(int id)
     {
         EraseItem(id);//Drawn Items목록에서 지우기
@@ -176,7 +178,7 @@ public class DrawnItemsManager : MonoBehaviour
     //Drawn Item이 선택되었을 때 이벤트 함수
     //필요기능
     //Drawn Item의 선택표시가 활성화되어야 한다.
-    //Palette에서 3D Object를 편집할 수 있어야 한다.
+    //Palette에서 Palette Item을 편집할 수 있어야 한다. palette item선택하기
     public void OnClickItem(int id)
     {
         InitializeSelection();
@@ -185,7 +187,7 @@ public class DrawnItemsManager : MonoBehaviour
         palette.SelectObject(id);//Palette에서 아이템 선택
     }
 
-    //Waiting Items에서 선택된 Drawn Items가 viewport에 보이지 않을 경우
+    //Inventory Items에서 선택된 Drawn Items가 viewport에 보이지 않을 경우
     //선택된 Drawn Item을 viewport가장 위쪽에 배치시켜야 한다.
     public void PlaceContentTop()
     {

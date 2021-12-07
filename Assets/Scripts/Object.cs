@@ -15,7 +15,6 @@ public class Object : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-       
     }
     void Update()
     {
@@ -32,13 +31,15 @@ public class Object : MonoBehaviour
         IsPress();
         if(other.tag=="Feet"&&check==true)
         {
-            Destroy(gameObject);
-            for(int i=0;i<4;i++)
+            GameManager.instance.DestroyToAll(transform.GetSiblingIndex());
+            //Destroy(gameObject);
+            for(int i=0;i<transform.childCount;i++)
             {
                 transform.GetChild(i).gameObject.SetActive(true);
                 transform.GetChild(i).gameObject.GetComponent<ItemInfo>().enabled = true;
                 transform.GetChild(i).transform.parent = null;
             }
+            check = false;
         }
     }
 }

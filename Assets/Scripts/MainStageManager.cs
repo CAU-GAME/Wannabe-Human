@@ -76,6 +76,10 @@ public class MainStageManager : MonoBehaviourPun, IPunObservable
 
         //게임 시작 버튼 클릭시 이벤트 등록
         gameStart.onClick.AddListener(OnClickGameStart);
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            gameStart.gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame

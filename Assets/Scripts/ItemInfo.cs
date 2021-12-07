@@ -11,7 +11,7 @@ using UnityEngine;
 
 구성요소 설명
 - 아이템 코드     : 아이템의 종류를 구분한다.
-- 아이템 이름     : 아이템의 이미지/3D 오브젝트를 불러오기 위해 필요하다.
+- 아이템 이름     : 아이템의 이미지를 불러오기 위해 필요하다.
 - 아이템 아이디   : 각각의 아이템을 구분하기 위해 필요하다. -> 나중에 Palette에 아이템을 그릴때 설정된다.
  */
 
@@ -71,17 +71,20 @@ public class ItemInfo : MonoBehaviour
         }
     }
 
+    //아이템의 code와 name을 설정
     public void SetItemInfo(int code, string name)
     {
         this.code = code;
         this.itemName = name;
     }
 
+    //아이템의 ID를 설정
     public void SetID(int id)
     {
         this.id = id;
     }
 
+    //아이템의 ID 참조
     public int GetID()
     {
         return id;

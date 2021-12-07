@@ -10,7 +10,7 @@ using Photon.Realtime;
  GameManager 클래스
 - 게임 전체적인 규칙에 대한 정보를 관리한다.
 
-- Stage1의 GameManager객체에 부착
+- GameManager객체에 부착
 
 주요기능
 - 제한시간설정
@@ -26,6 +26,8 @@ using Photon.Realtime;
 
  PlayerInfo 클래스
 - 참가자들의 게임 정보를 관리할 클래스이다.
+ RandomWordPool 클래스
+- 사용할 제시어들을 저장하고, 랜덤하게 선택하는 클래스
  */
 public class PlayerInfo
 {
@@ -88,6 +90,10 @@ public enum Category
     Thing = 3
 }
 
+/*
+게임에 사용될 제시어들을 관리
+- 랜덤하게 설정
+ */
 public class RandomWordPool
 {
     private static string[] food = {"짜장면","치킨","피자","떡볶이","파전","산적","족발","샐러드","유부초밥","김밥","라면"
@@ -126,6 +132,7 @@ public class RandomWordPool
         for (int i = 0; i < someth.Length; i++) somethCheck[i] = false;
     }
 
+    //랜덤하게 단어들을 선택하는 함수
     public void SelectWords(ref string[] words)
     {
         System.Random random = new System.Random();
@@ -133,12 +140,12 @@ public class RandomWordPool
 
         for(int i = 0; i < wordNum; i++)
         {
-            Category category = (Category)random.Next(0, 3);
+            Category category = (Category)random.Next(0, 3);//카테고리 선정
             int idx = 0;
             switch (category)
             {
                 case Category.Food:
-                    while (foodCheck[idx = Random.Range(0, food.Length)]) ;
+                    while (foodCheck[idx = Random.Range(0, food.Length)]) ;//랜덤하게 설정
                     foodCheck[idx] = true;
                     words[i] = food[idx];
                     break;
@@ -190,8 +197,7 @@ public class GameManager : MonoBehaviourPun
                                  //3 : 네번째 문제,
                                  //4 : 문제 출제 끝
 
-    //public Dictionary<int, PlayerInfo> players;//게임순서(int) -> Player에 대한 정보(PlayerInfo)
-    public List<PlayerInfo> players;
+    public List<PlayerInfo> players;//게임순서(int) -> Player에 대한 정보(PlayerInfo)
     private int[] randomOrder;//랜덤한 순서가 저장되어 있는 변수
     private bool[] usedOrder;//랜덤하게 순서를 정하기 위한 변수, 지정된 순서는 true로 표시된다.
 
@@ -199,6 +205,7 @@ public class GameManager : MonoBehaviourPun
     private int curSolverOrder = -1;//정답자의 순서
     private int curDrawerOrder = -1;//출제자의 순서
     private bool alreadyCheck = false;//정답이 맞았는지 확인하는 변수
+    private PhotonView pv;
 
     RandomWordPool randomWordPool;
     string[] randomWords;
@@ -211,8 +218,9 @@ public class GameManager : MonoBehaviourPun
         if (instance == null)//맨 처음 객체가 생성될 때, 자기 자신을 참조해 어느 씬에서든지 사용할 수 있도록 한다.
         {
             instance = this;//자기 자신 참조
+            pv = GetComponent<PhotonView>();
 
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient)//호스트에서만 순서와 제시어를 세팅할 수 있도록한다.
             {
                 Debug.Log("random setting");
 
@@ -256,6 +264,17 @@ public class GameManager : MonoBehaviourPun
         {
             Destroy(gameObject);
         }
+    }
+
+    public void DestroyToAll(int _idx)
+    {
+        pv.RPC("LetDestroyRPC", RpcTarget.AllBuffered, _idx);
+    }
+
+    [PunRPC]
+    public void LetDestroyRPC(int idx)
+    {
+        Destroy(GameObject.Find("object").transform.GetChild(idx).gameObject);
     }
 
     //플레이어가 게임에 참가
@@ -460,21 +479,5 @@ public class GameManager : MonoBehaviourPun
     public PlayerInfo GetCurDrawer()
     {
         return players[curDrawerOrder];
-    }
-
-    //게임 재시작 버튼을 누르면 실행되는 함수, 플레이 정보를 초기화한다.
-    public void Replay()
-    {
-        problemCount = 0;//문제 수 카운팅 초기화
-        for (int i = 0; i < usedOrder.Length; i++)
-        {
-            usedOrder[i] = false;
-        }
-
-        curSolverOrder = -1;//정답자 초기화
-        curDrawerOrder = -1;//출제자 초기화
-        InventoryManager.instance.ClearItems();//인벤토리의 아이템 획득 정보를 초기화한다.
-
-        SceneManager.LoadScene("Main");//씬을 다시 로드한다.
     }
 }

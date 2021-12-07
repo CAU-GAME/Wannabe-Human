@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 /*
  GuideWordSetter 클래스
-- GuideWord : 플레이어 4명이 모인 후, 게임이 시작될 때, 참가자에게 제시어를 알려준다. 
+- GuideWord : 게임이 시작될 때, 참가자에게 제시어를 알려준다. 
               그외 제한시간 및, 획득가능한 아이템의 최대 가지수를 안내한다.
 기능
  - 제시어 초기화

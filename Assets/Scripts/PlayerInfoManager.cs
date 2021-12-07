@@ -77,6 +77,7 @@ public class PlayerInfoManager : MonoBehaviour
         InfoWindows[idx].SetActive(true);
     }
 
+    //플레이어의 점수를 업데이트 한다.
     public void UpdatePlayerScore(PlayerInfo info)
     {
         int idx = info.enter;
@@ -93,6 +94,7 @@ public class PlayerInfoManager : MonoBehaviour
         scoreText.text = score + " 점";
     }
 
+    //플레이어의 점수가 안보이도로 비활성화한다.
     public void HideScore(PlayerInfo info)
     {
         int idx = info.enter;
