@@ -11,7 +11,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public Button loginButton;//로그인 버튼, 클릭하면 룸 접속을 시도한다.
     public Text IDtext;//입력받은 아이디
     public Text ConnectionStatus;//접속상태를 나타내는 변수
-    public Text nicknameStatus;
 
     // Start is called before the first frame update
     void Start()
@@ -41,18 +40,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            if (IsRepeatedNickname(IDtext.text))
-            {
-                nicknameStatus.gameObject.SetActive(true);
-                nicknameStatus.text = "That nickname can not be used";
-                return;
-            }
-            else
-            {
-                nicknameStatus.gameObject.SetActive(true);
-                nicknameStatus.text = "That nickname can be used";
-            }
-
             //닉네임 추가
             PhotonNetwork.LocalPlayer.NickName = IDtext.text;//로컬 플레이어의 닉네임을 입력받은 텍스트로 설정한다.
             loginButton.interactable = false;
@@ -68,18 +55,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             }
         }
 
-    }
-
-    public bool IsRepeatedNickname(string name)
-    {
-        foreach (Player p in PhotonNetwork.PlayerList)
-        {
-            if (name.Equals(p.NickName))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     public override void OnConnectedToMaster()//마스터 서버에 접속되면 실행되는 메서드

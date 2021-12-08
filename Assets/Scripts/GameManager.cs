@@ -254,11 +254,10 @@ public class GameManager : MonoBehaviourPun
             
             Debug.Log("Done apply all players");
 
-            //ShowPlayerInfo();
-
             DontDestroyOnLoad(instance);//다른 씬에서도 쓸 수 있도록
 
-            PhotonNetwork.Instantiate("player", new Vector3(2.02f, 0.15f, 0), Quaternion.identity);
+            int num = PhotonNetwork.PlayerList.Count<Player>();
+            PhotonNetwork.Instantiate("Player" + num, new Vector3(2.02f, 0.15f, 10f * Random.Range(-30, 30) / 30f), Quaternion.identity);
         }
         else
         {

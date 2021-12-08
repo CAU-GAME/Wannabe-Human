@@ -176,7 +176,7 @@ public class MainStageManager : MonoBehaviourPun, IPunObservable
                 noticer.ShowNotice(Notice.GuideState);//GuideState알림 활성화
 
                 rightPanel.gameObject.SetActive(false);//rightPanel활성화(플레이어 목록, 채팅창)
-                cam.rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);//카메라 시점 변경
+                Camera.main.rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);//카메라 시점 변경
                 break;
 
             case MainStageState.GuidingOrder:
