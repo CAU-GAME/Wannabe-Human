@@ -8,6 +8,7 @@ using UnityEngine.UI;
 - Correct Notice의 관련정보를 초기화하는 클래스
 
 - Notice > Correct에 부착
+- Problem Stage(Quiz Time)에서 사용된다.
 
 주요기능
 - 정답을 공개한다.

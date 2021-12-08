@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 /*
  GuideWordSetter 클래스
-- GuideWord : 게임이 시작될 때, 참가자에게 제시어를 알려준다. 
+- GuideWord : Main Stage에서 Collecting Time이 시작될 때, 참가자에게 제시어를 알려준다. 
               그외 제한시간 및, 획득가능한 아이템의 최대 가지수를 안내한다.
+- Main Stage에서 사용
+
 기능
  - 제시어 초기화
  - 제한 시간 초기화

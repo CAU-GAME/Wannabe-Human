@@ -6,7 +6,8 @@ using System.Linq;
 
 /*
  GuideOrderSetter 클래스
-- Guide Order : 플레이어에게 문제 출제 순서를 알린다.
+- Main Stage에서 쓰인다. Collecting Time이 되기 전에 Quiz순서를 알린다.
+- Guide Order : 플레이어에게 Quiz 출제 순서를 알린다. GameManager로 부터 플레이어 순서 정보를 받아와서 UI로 보여준다.
 - Guide Order Setter는 플레이어 순서를 받아서 UI를 초기화한다.
  */
 

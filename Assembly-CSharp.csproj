@@ -77,7 +77,7 @@
     <Compile Include="Assets\Scripts\StageManager.cs" />
     <Compile Include="Assets\Scripts\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\ButtonOverScroll.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Unused\PlayerController.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChannelSelector.cs" />
     <Compile Include="Assets\Scripts\WordSizeFitter.cs" />
     <Compile Include="Assets\Scripts\Die.cs" />
@@ -96,7 +96,7 @@
     <Compile Include="Assets\Scripts\Unused\RaycastTester.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\FriendItem.cs" />
     <Compile Include="Assets\Scripts\player_move.cs" />
-    <Compile Include="Assets\Scripts\RotateTester.cs" />
+    <Compile Include="Assets\Scripts\Unused\RotateTester.cs" />
     <Compile Include="Assets\Scripts\Unused\SkillCoolTimer.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\ChatGui.cs" />

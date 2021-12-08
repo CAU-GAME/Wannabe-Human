@@ -12,6 +12,9 @@ using Photon.Realtime;
 - 채팅방을 관리하는 클래스
 - 입력창을 통해 사용자의 입력을 감지하고 입력값을 채팅창으로 전송한다.
 
+- Main Stage에서 Collecting Time이 시작되기 전, 4명이 모일 때 사용됨 - 서로 인사를 주고받는 용도
+- Problem Stage에서 Quiz Time 때 사용됨. - 서로 대화하고, 정답을 입력하는데 사용됨
+
 채팅공간 구성요소
 - Chatting Log  : 참가자들이 전송한 입력값들이 보여짐, 대화내역이 보여진다.
 - inputField    : 사용자가 채팅을 하기 위해 텍스트를 입력하는 곳
